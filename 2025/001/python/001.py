@@ -15,13 +15,22 @@ with open(f"{SCRIPT_DIR}/input.txt") as f:
     for l in f.readlines():
         movement = l.strip()
         (direction, clicks) = movement[0], int(movement[1:])
-        # brute force dial rotation, analytical `p = abs( delta // dial)`
-        # only works for full cycle, 360º loop, not for boundary crossing
-        for _ in range(clicks):
-            position = (position + OP[direction]) % dial
-            if position == 0:
-                through_zero += 1
+        (loops, remainder) = divmod(position + (OP[direction] * clicks), dial)
 
+        # backwards rotation
+        if direction == 'L':
+            through_zero += abs(loops)
+            # corrections...
+            if position == 0 and remainder > 0:
+                through_zero -= 1
+            elif position > 0 and remainder == 0:
+                through_zero += 1 
+        # forward rotarion
+        else:
+            through_zero += loops
+
+        position = remainder
+                
         if position == 0:
             on_zero += 1
 

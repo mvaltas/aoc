@@ -34,4 +34,4 @@ with open(f"{SCRIPT_DIR}/input.txt") as f:
         if position == 0:
             on_zero += 1
 
-print(f"on_zero:{on_zero}, past:{through_zero}")
+print(f"on_zero:{on_zero}, through:{through_zero}")
